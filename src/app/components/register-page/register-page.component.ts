@@ -26,14 +26,19 @@ export class RegisterPageComponent implements OnInit {
   }
 
   submit(){
-    this.http.post('https://624803b44bd12c92f4065ec2.mockapi.io/users', this.user.value).subscribe(res=>{
-      alert('REGISTRATION SUCCESFUL');
-      this.user.reset()
-      this.route.navigate(["login"])
-    },err=>{
-      alert("Something went wrong")
-    });
-  }
+    this.http.get("https://624803b44bd12c92f4065ec2.mockapi.io/users?username=" + this.user.value.username).subscribe(error => 'username already exist')
+    
+    this.http.post('https://624803b44bd12c92f4065ec2.mockapi.io/users', this.user.value).subscribe({
+      next:res=>{
+        alert('REGISTRATION SUCCESFUL');
+        this.user.reset()
+        this.route.navigate(["login"])
+    },
+      error: err=>{
+        alert("Something went wrong")
+      }
+  });
+}
 
   logIn(){
     const controls = this.user.controls;

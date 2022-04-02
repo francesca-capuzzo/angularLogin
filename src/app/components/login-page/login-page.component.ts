@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -27,12 +27,31 @@ export class LoginPageComponent implements OnInit {
     // console.warn(this.user.value);
   }
 
+  // private validateUsername(): ValidatorFn {
+  //   return (control: AbstractControl): {[key: string]: any} => {
+  //     this.http.get(this.user.value.username)
+  //       .subscribe(
+  //         ({data}) => {
+  //           let res: string = data;
+  //           if (res === control.value) {
+  //             return {'alreadyExist': true};
+  //           } else {
+  //             return null
+  //           }
+  //         },
+  //         (error) => {
+  //           console.log(error);
+  //         }
+  //       )
+  //   }}
+
   logIn(){
     // const controls = this.user.controls;
     // console.log('Username: ' + controls['username'].value);
     // console.log('Password: ' + controls['password'].value);
-    this.http.get<any>("https://624803b44bd12c92f4065ec2.mockapi.io/users")
-    .subscribe(res=>{
+    this.http.get<any>("https://624803b44bd12c92f4065ec2.mockapi.io/users?username=" + this.user.value.username)
+    .subscribe({
+      next: res=>{
       const user = res.find((a:any)=>{
         return a.username === this.user.value.username && a.password === this.user.value.password 
       });
@@ -43,8 +62,11 @@ export class LoginPageComponent implements OnInit {
       }else{
         alert("user not found")
       }
-    },err=>{
-      alert("Something went wrong")
-    })
+    },
+      error: () =>{
+        alert("Something went wrong")
+
+      }
+    });
   }
 }
