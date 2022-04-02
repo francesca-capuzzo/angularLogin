@@ -1,0 +1,19 @@
+<form [formGroup]="user" (ngSubmit)="onSubmit()" class="container">
+
+    <h1>LOG IN</h1>
+
+    <label for="username">Username: </label>
+    <input type="text" id="username" formControlName="username" required>
+    <div class="inner-text" *ngIf="user.controls['username'].invalid && (user.controls['username'].dirty || user.controls['username'].touched)" class="alert">
+        Please enter a username
+    </div>
+  
+    <label for="password">Password: </label>
+    <input id="password" type="password" formControlName="password" minlength="8" required>
+    <span class="inner-text" *ngIf="user.controls['password'].touched && user.controls['password'].errors?.['required']">The password is required</span>
+    <span class="inner-text" *ngIf="user.controls['password'].touched && user.controls['password'].errors?.['minlength']">The password is too short</span>
+
+    <button type="submit" [disabled]="!user.valid">Login</button>
+    <p>{{user.status}}</p>
+
+</form>

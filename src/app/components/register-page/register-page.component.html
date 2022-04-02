@@ -1,0 +1,29 @@
+<form [formGroup]="user" (ngSubmit)="onSubmit()" class="container">
+
+    <h1>REGISTER</h1>
+
+    <label for="username">Username: </label>
+    <input type="text" id="username" formControlName="username" required>
+    <div class="inner-text" *ngIf="user.controls['username'].invalid && (user.controls['username'].dirty || user.controls['username'].touched)" class="alert">
+        Please enter a username
+    </div>
+
+    <label for="emial">Email: </label>
+    <input id="emial" type="email" formControlName="email" required>
+  
+    <label for="password">Password: </label>
+    <input id="password" type="password" formControlName="password" minlength="8" required>
+    <span class="inner-text" *ngIf="user.controls['password'].touched && user.controls['password'].errors?.['required']">The password is required</span>
+    <span class="inner-text" *ngIf="user.controls['password'].touched && user.controls['password'].errors?.['minlength']">The password is too short</span>
+
+    <label for="dob">Date of Birth: </label>
+    <input type="text" id="dob" formControlName="dob" required>
+    <div class="inner-text" *ngIf="user.controls['dob'].invalid && (user.controls['dob'].dirty || user.controls['dob'].touched)" class="alert">
+        Please enter Last Name
+    </div>
+
+    <p>Complete the form to enable the button</p>
+    <button type="submit" [disabled]="!user.valid">Register</button>
+    <p>{{user.status}}</p>
+
+</form>
