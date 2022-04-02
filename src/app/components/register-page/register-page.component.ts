@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-page',
@@ -14,20 +16,32 @@ export class RegisterPageComponent implements OnInit {
     password: new FormControl('', Validators.required),
     dob: new FormControl('',Validators.required),
   })
-  constructor() { }
+  constructor(private http: HttpClient, private route: Router) { }
 
   ngOnInit(): void {
   }
 
   onSubmit(){
-    console.warn(this.user.value);
+    //console.warn(this.user.value);
+  }
+
+  submit(){
+    this.http.post('https://624803b44bd12c92f4065ec2.mockapi.io/users', this.user.value).subscribe(res=>{
+      alert('REGISTRATION SUCCESFUL');
+      this.user.reset()
+      this.route.navigate(["login"])
+    },err=>{
+      alert("Something went wrong")
+    });
   }
 
   logIn(){
     const controls = this.user.controls;
-    console.log('Username: ' + controls['username'].value);
-    console.log('Email: ' + controls['email'].value);
-    console.log('Password: ' + controls['password'].value);
-    console.log('DOB: ' + controls['dob'].value);
+    // console.log('Username: ' + controls['username'].value);
+    // console.log('Email: ' + controls['email'].value);
+    // console.log('Password: ' + controls['password'].value);
+    // console.log('DOB: ' + controls['dob'].value);
+    console.log('values: ' + this.user.value);
+    
   }
 }

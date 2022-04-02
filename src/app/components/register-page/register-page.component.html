@@ -23,7 +23,7 @@
     </div>
 
     <p>Complete the form to enable the button</p>
-    <button type="submit" [disabled]="!user.valid">Register</button>
+    <button type="submit" (click)="submit()" [disabled]="!user.valid">Register</button>
     <p>{{user.status}}</p>
 
 </form>
